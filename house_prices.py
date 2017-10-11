@@ -15,7 +15,7 @@ from mxnet import gluon
 # print pd.concat([s1, s2])
 
 #控制调试or测试
-DEBUG = False
+DEBUG = True
 
 #测试输出submission是否出现负数
 if DEBUG:
@@ -64,7 +64,7 @@ Y_train.reshape((num_train,1))
 square_loss = gluon.loss.L2Loss()
 def get_srme_log(net, X_train, Y_train):
     num_train = X_train.shape[0]
-    clipped_preds = nd.clip(net(X_train), 1, float('inf'))
+    clipped_preds = nd.clip(net(X_train), 1, float('inf'))#对net(X)结果进行截断[1,正无穷]
     return np.sqrt(2 * nd.sum(square_loss(nd.log(clipped_preds), nd.log(Y_train))).asscalar() / num_train)
 
 def direct_srme_log(output, label):
