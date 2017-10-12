@@ -35,4 +35,5 @@
 ## 一些体会
 不要一次上很多层hidden layer，上的太多在调试的时候会十分的困难。重视hidden layer的unit数量，这是原来忽略的地方，原来只是盲目增加hidden layer层数。  
 并没有采用feature engineering，主要是太麻烦了，其实是不会哈。但我觉得，由于采用nn，所以数据不全的特征无需人工剔除。
+
 为什么对label取log？？
