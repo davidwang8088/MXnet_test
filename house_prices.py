@@ -15,7 +15,7 @@ from mxnet import gluon
 # print pd.concat([s1, s2])
 
 #控制调试or测试
-DEBUG = True
+DEBUG = False
 
 #测试输出submission是否出现负数
 if DEBUG:
@@ -166,10 +166,10 @@ def k_fold_cross_valid(k, epochs, verbose_epoch, X_train, y_train,
 ################################################################################
 
 k = 3
-epochs = 80
+epochs = 50
 verbose_epoch = epochs -10
-learning_rate = 0.03
-weight_decay = 10
+learning_rate = 0.0185
+weight_decay = 480
 
 
 
