@@ -19,8 +19,8 @@
     Dropout = 0.5
     **提交成绩：0.11692**  
     remark：增大wd，降低过拟合，略增大lr（与0.01比较）降低training loss。
-## 第（3）次参数设置
-    k = 3
+## 第（3）次参数设置（2017.10.12）
+    k = 3
     epochs = 50
     verbose_epoch = epochs -10
     learning_rate = 0.019
