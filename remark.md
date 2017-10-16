@@ -1,7 +1,8 @@
 #  矩阵中axis的使用  
 尤其是对于高维矩阵中X.shape = (2,3,4):  
 首先确定结果矩阵的shape，axis等于几，哪个维度变为1.  
-而后，再考虑计算mean，max，argmax。。。whatever...  
+而后，再考虑计算mean，max。。。whatever...  
+note:X.argmax(axis=0)输出的矩阵是坐标。
 ##  x.mean()笔记
     a = np.arange(0,24).reshape((2,3,4))
     print b = a.mean(axis = (0,1),keepdims = True).shape
@@ -18,5 +19,8 @@
  先有了输出矩阵的shape，就好计算了。 
  
  ## X.argmax()笔记
-    a = np.arange(0,24).reshape((2,3,4))
+    a = np.arange(0,24).reshape((2,3,4))  
+    c = a.argmax(axis=0)  
+    两个(3,4)的矩阵沿着第0维进行比较，保留第0维中大的坐标。  
+    Note：a.argmax的输出要比a低一个维度。  
 
