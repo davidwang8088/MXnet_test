@@ -15,3 +15,7 @@ __先在每个channel对应的data和weight卷积，后相加，得到一个out[
     b = nd.zeros(4)
     data = nd.arange(54).reshape((3,2,3,3))
     out = nd.Convolution(data, w, b, kernel=w.shape[2:], num_filter=w.shape[0])
+    
+    
+# 一个trick  
+当卷积核为(1,1)时，就是data在in_channel方向上__每个元素__×weight后相加。  
