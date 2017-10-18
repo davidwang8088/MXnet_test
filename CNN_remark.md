@@ -8,7 +8,7 @@ bias: (num_filter,)
 out: (batch_size, num_filter, out_height, out_width).  
 其中，output的channel取决于weight的num_filter，batch_size为data的batch_size。  
 计算方法：out[n,i,:,:]=bias[i]+∑j=0 channel data[n,j,:,:]⋆weight[i,j,:,:]，    
-__先在每个channel对应的data和weight卷积，后相加，得到一个out[n,i]__
+__先在每个channel对应的data和weight卷积，后相加，得到一个out[n,i]__    
 每个输出的大小： O = (W-K+2P) / S +1，其中，W为data size, k为卷积核大小，P为padding大小，S为步长stride。
 
     w = nd.ones(8).reshape((4,2,1,1))
