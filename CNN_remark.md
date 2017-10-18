@@ -1,13 +1,14 @@
 # CNN笔记  
 在MXnet环境下：  
-输入输出数据格式是 batch x in_channel x height x width， 
-权重格式是 num_filter x in_channels x height x width，这里input_filter和output_filter都是1。  
+输入输出数据格式是 batch x channel x height x width， 
+权重格式是 num_filter x channel x height x width，这里input_filter和output_filter都是1。  
 data: (__batch_size__, channel, height, width)  
 weight: (__num_filter__, channel, kernel[0], kernel[1])  
 bias: (num_filter,)  
 out: (batch_size, num_filter, out_height, out_width).  
-其中，num_filter就是，输出的channel。即output的channel取决于weight的num_filter。  
-out[n,i,:,:]=bias[i]+$\sum_{j=0}^channel$   ∑j=0channeldata[n,j,:,:]⋆weight[i,j,:,:]
+其中，output的channel取决于weight的num_filter，batch_size为data的batch_size。  
+计算方法：out[n,i,:,:]=bias[i]+∑j=0 channel data[n,j,:,:]⋆weight[i,j,:,:]，   
+__先在每个channel对应的data和weight卷积，后相加，得到一个out[n,i]__
 
 
 $\sum_{k=1}^n$
