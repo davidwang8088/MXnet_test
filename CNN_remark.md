@@ -18,4 +18,4 @@ __先在每个channel对应的data和weight卷积，后相加，得到一个out[
     
     
 # 一个trick  
-当卷积核为(1,1)时，就是data在in_channel方向上__每个元素__×weight后相加。  
+当卷积核为(1,1)时，就是data在in_channel方向上每个元素×weight后相加。  
