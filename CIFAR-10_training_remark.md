@@ -16,4 +16,9 @@
 ### 画出loss和accuracy的曲线图  
 ### 竞价实例的尝试
 ### resnet和dense net 尝试
-### 参数存储
+### 参数存储  
+
+## 几个可以尝试的方向:  
+### 1.调整resnet18的参数,e.g. node数量... 
+### 2.使用resnet164  
+### 3.选择densenet
