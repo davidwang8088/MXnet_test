@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 
-# 训练model or 测试
-is_training = True
+# 训练模型 or 进行测试
+is_training = False
 # 使用demo数据集 or Kaggle数据集
-demo = True
+demo = False
 
 # if demo:
 #     import zipfile
@@ -107,7 +107,7 @@ import numpy as np
 def transform_train(data, label):
     im = data.astype('float32') / 255
     auglist = image.CreateAugmenter(data_shape=(3, 32, 32), resize=0,
-                                    rand_crop=False, rand_resize=False, rand_mirror=True,
+                                    rand_crop=True, rand_resize=True ,rand_mirror=True,
                                     mean=np.array([0.4914, 0.4822, 0.4465]),
                                     std=np.array([0.2023, 0.1994, 0.2010]),
                                     brightness=0, contrast=0,
@@ -160,6 +160,73 @@ test_data = loader(test_ds, batch_size, shuffle=False, last_batch='keep')
 from mxnet.gluon import nn
 from mxnet import nd
 
+
+
+
+class Residual_bottleneck(nn.HybridBlock):
+    def __init__(self, channels, same_shape=True, **kwargs):
+        super(Residual_bottleneck, self).__init__(**kwargs)
+        self.same_shape = same_shape
+        with self.name_scope():
+            # same_shape 表示输入和输出的shape是否一样。因为out+x，shape必须一致。
+            strides = 1 if same_shape else 2
+            self.bn1 = nn.BatchNorm()
+            self.conv1 = nn.Conv2D(channels//4, kernel_size=1, use_bias=False)
+            self.bn2 = nn.BatchNorm()
+            self.conv2 = nn.Conv2D(channels//4,kernel_size=3, padding=1, strides=strides, use_bias=False)
+            self.bn3 = nn.BatchNorm()
+            self.conv3 = nn.Conv2D(channels=channels, kernel_size=1, use_bias=False)
+            self.bn4 = nn.BatchNorm()
+            if not same_shape:
+                self.conv4 = nn.Conv2D(channels, kernel_size=1, strides=strides, use_bias=False)
+
+    def hybrid_forward(self, F, x):
+        out = self.conv1((self.bn1(x)))
+        out = F.relu(self.bn2(out))
+        out = F.relu(self.bn3(self.conv2(out)))
+        out = self.bn4(self.conv3(out))
+        if not self.same_shape:
+            x = self.conv4(x)
+        return out+x
+
+
+class ResNet164(nn.HybridBlock):
+    def __init__(self, num_classes, verbose=False, **kwargs):
+        super(ResNet164, self).__init__(**kwargs)
+        self.verbose = verbose
+        with self.name_scope():
+            net = self.net = nn.HybridSequential()
+            # block 1
+            net.add(nn.Conv2D(channels=64, kernel_size=3, strides=1, padding=1, use_bias=False))
+            # block 2
+            for _ in range(27):
+                net.add(Residual_bottleneck(channels=64))
+            # block 3
+            net.add(Residual(channels=128, same_shape=False))
+            for _ in range(26):
+                net.add(Residual_bottleneck(channels=128))
+            # block 4
+            net.add(Residual(channels=256, same_shape=False))
+            for _ in range(26):
+                net.add(Residual_bottleneck(channels=256))
+            # block 5
+            net.add(nn.BatchNorm())
+            net.add(nn.Activation(activation='relu'))
+            net.add(nn.AvgPool2D(pool_size=8))
+            net.add(nn.Flatten())
+            net.add(nn.Dense(num_classes))
+
+    def hybrid_forward(self, F, x):
+        out = x
+        for i, b in enumerate(self.net):
+            out = b(out)
+            if self.verbose:
+                print ('Block %d output :'%(i+1, out.shape))
+        return out
+
+
+
+
 class Residual(nn.HybridBlock):
     def __init__(self, channels, same_shape=True, **kwargs):
         super(Residual, self).__init__(**kwargs)
@@ -185,41 +252,42 @@ class Residual(nn.HybridBlock):
 
 class ResNet(nn.HybridBlock):
     def __init__(self, num_classes, verbose=False, **kwargs):
+        super(ResNet, self).__init__(**kwargs)
         self.verbose = verbose
         with self.name_scope():
             net = self.net = nn.HybridSequential()
-            #block1
+            # block 1
             net.add(nn.Conv2D(channels=32, kernel_size=3, strides=1, padding=1))
             net.add(nn.BatchNorm())
             net.add(nn.Activation(activation='relu'))
-            #block2
+            # block 2
             for _ in range(3):
                 net.add(Residual(channels=32))
-            #block3
-            net.add(Residual(channels=64), same_shape=False)
-            for _ in range(3):
-                net.add(Residual(channels=32))
-            #block4
-            net.add(Residual(channels=128), same_shape=False)
-            for _ in range(3):
+            # block 3
+            net.add(Residual(channels=64, same_shape=False))
+            for _ in range(2):
+                net.add(Residual(channels=64))
+            # block 4
+            net.add(Residual(channels=128, same_shape=False))
+            for _ in range(2):
                 net.add(Residual(channels=128))
-            #block5
+            # block 5
             net.add(nn.AvgPool2D(pool_size=8))
             net.add(nn.Flatten())
             net.add(nn.Dense(num_classes))
 
-        def hybrid_forward(self, F, x):
-            out = x
-            for i, b in enumerate(self.net):
-                out = b(out)
-                if self.verbose:
-                    print ('Block %d output'%(i+1, out.shape))
-            return out
+    def hybrid_forward(self, F, x):
+        out = x
+        for i, b in enumerate(self.net):
+            out = b(out)
+            if self.verbose:
+                print ('Block %d output :'%(i+1, out.shape))
+        return out
 
 def get_net(ctx):
     num_outputs = 10
     net = ResNet(num_outputs)
-    net.initialize(ctx=ctx, init=init.Xavier)
+    net.initialize(ctx=ctx, init=init.Xavier())
     return net
 
 
@@ -229,28 +297,30 @@ import utils
 softmax_cross_entropy = gluon.loss.SoftmaxCrossEntropyLoss()
 
 def train(net, train_data, valid_data, num_epochs, lr, wd, ctx, lr_period, lr_decay):
-    trainer = gluon.Trainer(
-        net.collect_params, 'sgd', {'learning_rate': lr, 'momentum': 0.9, 'wd': wd})
+    trainer = gluon.Trainer(net.collect_params(), 'sgd', {'learning_rate': lr, 'momentum': 0.9, 'wd': wd})
 
     prev_time = datetime.datetime.now()
-    for epoch in num_epochs:
+    for epoch in range(num_epochs):
         train_loss = 0.
         train_acc = 0.
+        # epoch 是lr_period z整数倍时,减小learning_rate
         if epoch > 0 and epoch % lr_period == 0:
             trainer.set_training_rate(trainer.learning_rate * lr_decay)
         for data, label in train_data:
             label = label.as_in_context(ctx)
-            with gluon.autograd.record():
-                output = net(data)
+            with autograd.record():
+                output = net(data.as_in_context(ctx))
                 loss = softmax_cross_entropy(output, label)
             loss.backward()
             trainer.step(batch_size)
             train_loss += nd.mean(loss).asscalar()
             train_acc += utils.accuracy(output, label)
         cur_time = datetime.datetime.now()
+        #　计算时间
         h, remainder = divmod((cur_time - prev_time).seconds, 3600)
         m, s = divmod(remainder, 60)
         time_str = "Time %02d:%02d:%02d" % (h, m, s)
+
         if valid_data is not None:
             valid_acc = utils.evaluate_accuracy(valid_data, net, ctx)
             epoch_str = ("Epoch %d. Loss: %f, Train acc %f, Valid acc %f, "
@@ -261,13 +331,14 @@ def train(net, train_data, valid_data, num_epochs, lr, wd, ctx, lr_period, lr_de
                          % (epoch, train_loss / len(train_data),
                             train_acc / len(train_data)))
         prev_time = cur_time
+
         print (epoch_str + time_str + ', lr' + str(trainer.learning_rate))
 
 
-
+# 定义参数，训练模型
 ctx = utils.try_gpu()
-num_epochs = 1
-learning_rate = 0.1
+num_epochs = 14
+learning_rate = 0.3
 weight_decay = 5e-4
 lr_period = 80
 lr_decay = 0.1
@@ -281,17 +352,17 @@ else:
     import pandas as pd
     train(net, train_valid_data, None, num_epochs, learning_rate, weight_decay, ctx, lr_period, lr_decay)
 
-preds = []
-for data, label in test_data:
-    output = net(data.as_in_context(ctx))
-    preds.extend(output.argmax(axis=1).astype(int).asnumpy())
+    preds = []
+    for data, label in test_data:
+        output = net(data.as_in_context(ctx))
+        preds.extend(output.argmax(axis=1).astype(int).asnumpy())
 
-    sorted_ids = list(range(1, len(test_ds) + 1))
-    sorted_ids.sort(key=lambda x: str(x))
+        sorted_ids = list(range(1, len(test_ds) + 1))
+        sorted_ids.sort(key=lambda x: str(x))
 
-    df = pd.DataFrame({'id': sorted_ids, 'label': preds})
-    df['label'] = df['label'].apply(lambda x: train_valid_ds.synsets[x])
-    df.to_csv('submission.csv', index=False)
+        df = pd.DataFrame({'id': sorted_ids, 'label': preds})
+        df['label'] = df['label'].apply(lambda x: train_valid_ds.synsets[x])
+        df.to_csv('submission.csv', index=False)
 
 
 
