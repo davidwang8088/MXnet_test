@@ -1,7 +1,8 @@
 ## CIFAR-10调试
 第一遍训练完，training acc=1，test acc = 0.91。  
 有些过拟合，应对过拟合的方法：
-1、调整wd
+1、调整wd(补充:在cifar10中,wd并不是一个调整后作用明显的参数,而且wd值本身也非常之小,与房价预测kaggle不同,cifar10调参主要还是网络结构的选择  
+ResNet,DenseNet...,确定了网络结构后,再调整lr和lr_period,lr_decay,epoch)
 2、增加image agumentation
 3、减小学习率
 4、提前终止。
