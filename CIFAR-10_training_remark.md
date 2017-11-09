@@ -37,3 +37,7 @@ cifar10主要还是自己手慢了,没有进入前20.这次比赛才更有调参
 还是用utils中  
     ctx = try_gpu()  
 来搞定吧.
+
+### 2017-11-09 记录  
+昨天学习@yinglang code里面的DenseNet,网络结构打印出来是乱的,先升级了mxnet至0.12,搞不定.把kernel换为python3,搞定!  
+后来发现其实在gluon下,使用的就是python3,只不过在python notebook中让我强行选择了python2.  
