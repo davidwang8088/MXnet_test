@@ -41,3 +41,12 @@ cifar10主要还是自己手慢了,没有进入前20.这次比赛才更有调参
 ### 2017-11-09 记录  
 昨天学习@yinglang code里面的DenseNet,网络结构打印出来是乱的,先升级了mxnet至0.12,搞不定.把kernel换为python3,搞定!  
 后来发现其实在gluon下,使用的就是python3,只不过在python notebook中让我强行选择了python2.  
+
+### Kaggle终于提交了最终成绩:0.9686!  
+三种ensemble方法:sum,softmax_sum,biggest.  
+最好的效果是sum方法.   
+具体的,选择了6个单项成绩最好的算法,组成了perdition[6]数组,数组中每个元素就是单项提交的prediction.  
+分别采用上面的三种方法进行组合.最终提交的成绩显示sum成绩最优!  
+
+另外,组合时每个元素乘其单项提交的成绩,我特意选择所有成绩都为1,计算得到sum__的成绩,发现与sum成绩完全一致!  
+
