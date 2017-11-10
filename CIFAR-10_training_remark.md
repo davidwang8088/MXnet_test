@@ -43,7 +43,7 @@ cifar10主要还是自己手慢了,没有进入前20.这次比赛才更有调参
 后来发现其实在gluon下,使用的就是python3,只不过在python notebook中让我强行选择了python2.  
 
 ### Kaggle终于提交了最终成绩:0.9686!  
- 
+![image](https://github.com/davidwang8088/MXnet_test/raw/master/images/kaggle_cifar10_0.9686.png)
 三种ensemble方法:sum,softmax_sum,biggest.  
 最好的效果是sum方法.   
 具体的,选择了6个单项成绩最好的算法,组成了perdition[6]数组,数组中每个元素就是单项提交的prediction.  
