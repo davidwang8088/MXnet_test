@@ -15,7 +15,7 @@ lr_decay = 0.1
 (1)可以通过net.collect_params().save(model_dir)保存过程中产生的参数,**但是无法通过net.collect_params().load(model_dir)加载参数.**
 
 ## 2017-11-15 Todo:
-* 测试基于model zoo的model,使用小epoch(e.g.epoch=10),看看提交的效果.
+* 测试基于model zoo的model,使用小epoch(e.g.epoch=10),看看提交的效果.  
     **使用了epoch=10, submission result:1.88! 这个性价比已经很高了!便于测试!**
 * 选择不同DA
 * 使用model zoo densenet
