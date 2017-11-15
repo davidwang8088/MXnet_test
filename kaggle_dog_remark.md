@@ -12,5 +12,5 @@ lr_period = 80
 lr_decay = 0.1
 ```
 ### 2.踩到的坑  
-(1)可以通过net.collect_params().save(model_dir)保存过程中产生的参数,<font color=#00ffff size=72>但是无法通过net.collect_params().load(model_dir)加载参数.</font>
+(1)可以通过net.collect_params().save(model_dir)保存过程中产生的参数,**但是无法通过net.collect_params().load(model_dir)加载参数.**
 
