@@ -61,3 +61,11 @@ Epoch 19. Train loss: 2.080084, Valid loss 1.146815, Time 00:04:09, lr 0.01
 ```
 ![resnet50v2fine tuning](https://github.com/davidwang8088/MXnet_test/blob/master/images/resnet50_v2_fine_tuning_traning_result.png)
 
+作为对比,以下是parameter全部训练的情况:
+```
+Epoch 0. Train loss: 4.823708, Valid loss 4.806104, Time 00:06:02, lr 0.01
+Epoch 1. Train loss: 4.792918, Valid loss 4.815374, Time 00:06:11, lr 0.01
+```
+只跑了2个epoch,看的出来,train loss和valid loss值都非常大,比只训练net.classifier的程序要差很多.单独的epoch时间也长很多.  
+
+
