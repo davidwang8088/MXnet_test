@@ -27,7 +27,8 @@ lr_decay = 0.1
 
 ## 2017-11-18remark:  
 * 自己重写的代码没有抓住fine tuning的本质,结果导致了一个怎么也解决不了的问题,只能改回tutorial的源码. 即使改写,**也要单元测试**,否则连在一起就是个噩梦...  
-* **fine tuning模型中,应该锁定net.feature的parameter,因为kaggle_dog是imagenet的一个子集,所以fine tuning得到的参数,对kaggle_dog问题是适用的,只需训练net.classifier的参数.**
+* **fine tuning模型中,应该锁定net.feature的parameter,因为kaggle_dog是imagenet的一个子集,所以fine tuning得到的参数,对kaggle_dog问题是适用的,只需训练net.classifier的参数.**  
+valid loss比Train loss都要低. 看得出泛化做的是不错的.  
 ```
 #resnet50_v2 fine tuning:
 num_epochs = 20
