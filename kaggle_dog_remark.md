@@ -24,3 +24,7 @@ lr_decay = 0.1
 * 使用model zoo densenet
 * 使用shelock densenet,查看与model zoo的差距.
 * 解决net.collect_params().load(model_dir)的问题
+
+## 2017-11-18remark:  
+
+
