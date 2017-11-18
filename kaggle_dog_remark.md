@@ -26,5 +26,36 @@ lr_decay = 0.1
 * 解决net.collect_params().load(model_dir)的问题
 
 ## 2017-11-18remark:  
+* 自己重写的代码没有抓住fine tuning的本质,结果导致了一个怎么也解决不了的问题,只能改回tutorial的源码. 即使改写,**也要单元测试**,否则连在一起就是个噩梦...  
+* **fine tuning模型中,应该锁定net.feature的parameter,因为kaggle_dog是imagenet的一个子集,所以fine tuning得到的参数,对kaggle_dog问题是适用的,只需训练net.classifier的参数.
+```
+#resnet50_v2 fine tuning:
+num_epochs = 20
+learning_rate = 0.01
+weight_decay = 5e-4
+lr_period = 80
+lr_decay = 0.1
+#training result:
+Epoch 0. Train loss: 3.512373, Valid loss 1.712977, Time 00:04:02, lr 0.01
+Epoch 1. Train loss: 2.674281, Valid loss 1.457443, Time 00:04:09, lr 0.01
+Epoch 2. Train loss: 2.476326, Valid loss 1.492412, Time 00:04:07, lr 0.01
+Epoch 3. Train loss: 2.408694, Valid loss 1.348946, Time 00:04:09, lr 0.01
+Epoch 4. Train loss: 2.341582, Valid loss 1.359826, Time 00:04:08, lr 0.01
+Epoch 5. Train loss: 2.266770, Valid loss 1.252112, Time 00:04:09, lr 0.01
+Epoch 6. Train loss: 2.248072, Valid loss 1.211580, Time 00:04:09, lr 0.01
+Epoch 7. Train loss: 2.214287, Valid loss 1.229513, Time 00:04:09, lr 0.01
+Epoch 8. Train loss: 2.181048, Valid loss 1.201421, Time 00:04:09, lr 0.01
+Epoch 9. Train loss: 2.174796, Valid loss 1.192285, Time 00:04:09, lr 0.01
+Epoch 10. Train loss: 2.158222, Valid loss 1.230968, Time 00:04:09, lr 0.01
+Epoch 11. Train loss: 2.116029, Valid loss 1.261541, Time 00:04:10, lr 0.01
+Epoch 12. Train loss: 2.134877, Valid loss 1.081200, Time 00:04:08, lr 0.01
+Epoch 13. Train loss: 2.149361, Valid loss 1.134528, Time 00:04:07, lr 0.01
+Epoch 14. Train loss: 2.124681, Valid loss 1.137760, Time 00:04:09, lr 0.01
+Epoch 15. Train loss: 2.108666, Valid loss 1.113905, Time 00:04:09, lr 0.01
+Epoch 16. Train loss: 2.109114, Valid loss 1.141784, Time 00:04:09, lr 0.01
+Epoch 17. Train loss: 2.093371, Valid loss 1.109152, Time 00:04:07, lr 0.01
+Epoch 18. Train loss: 2.100347, Valid loss 1.101088, Time 00:04:09, lr 0.01
+Epoch 19. Train loss: 2.080084, Valid loss 1.146815, Time 00:04:09, lr 0.01
+```
 
 
