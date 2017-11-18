@@ -57,5 +57,5 @@ Epoch 17. Train loss: 2.093371, Valid loss 1.109152, Time 00:04:07, lr 0.01
 Epoch 18. Train loss: 2.100347, Valid loss 1.101088, Time 00:04:09, lr 0.01
 Epoch 19. Train loss: 2.080084, Valid loss 1.146815, Time 00:04:09, lr 0.01
 ```
-
+![resnet50v2fine tuning]https://github.com/davidwang8088/MXnet_test/blob/master/images/resnet50_v2_fine_tuning_traning_result.png
 
