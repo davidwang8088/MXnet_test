@@ -69,4 +69,10 @@ Epoch 2. Train loss: 4.789216, Valid loss 4.801067, Time 00:06:10, lr 0.01
 ```
 只跑了2个epoch,看的出来,train loss和valid loss值都非常大,比只训练net.classifier的程序要差很多.单独的epoch时间也长很多.  
 
-
+## 2017-11-20
+杨培文在[gluon论坛](https://discuss.gluon.ai/t/topic/2399/108?u=davidwang)中,对炼丹的关键点进行了总结:
+* 是否 resize 正确的大小
+* 是否进行了正确的预处理
+* 是否锁定了卷积层权重
+* 是否设置了合理的模型结构，包括全连接层、Dropout 层等
+* 是否设置了合理的学习率、训练代数
