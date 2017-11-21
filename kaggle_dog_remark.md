@@ -80,3 +80,9 @@ Epoch 2. Train loss: 4.789216, Valid loss 4.801067, Time 00:06:10, lr 0.01
 对于第1条,正是碰到的问题,原来没有考虑过input image的size,莫名其妙的kernel就死掉了...   
 inception_v3的输入图像要求(299,299).  
 resnet要求输入图像(224,224)  
+
+## 2017-11-21 
+* 在gluon环境下安装opencv  
+昨天先试过了在gluon环境下使用pip install方法,并不好使,可能还是没有把opencv装在gluon环境下.  
+今天还是在gluon环境下,使用```conda install -c https://conda.anaconda.org/menpo opencv3``` 搞定!  
+要在conda环境下安装.
