@@ -88,3 +88,5 @@ resnet要求输入图像(224,224)
 要在conda环境下安装.
 
 ## 2017-11-25 第三次提交成绩
+* mark  
+![第三次成绩](https://github.com/davidwang8088/MXnet_test/blob/master/images/kaggle_dog_%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B.png)
