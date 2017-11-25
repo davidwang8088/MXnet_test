@@ -86,3 +86,5 @@ resnet要求输入图像(224,224)
 昨天先试过了在gluon环境下使用pip install方法,并不好使,可能还是没有把opencv装在gluon环境下.  
 今天还是在gluon环境下,使用```conda install -c https://conda.anaconda.org/menpo opencv3``` 搞定!  
 要在conda环境下安装.
+
+## 2017-11-25 第三次提交成绩
