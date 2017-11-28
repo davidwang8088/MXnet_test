@@ -102,7 +102,7 @@ resnet要求输入图像(224,224)
 ## 2017-11-27 单模型记录  
 model | ypw's val_loss | my val_loss
 ----|----|----
-inceptionv3 | 0.296050225385  | 0.3082
+inceptionv3 | 0.296050225385  | 0.2827(0.3082)
 resnet152_v1 | 0.399359531701 | 0.3983
 resnet101_v1 | 0.410383010283 | 0.4045
 densenet161 | 0.418100789189  | 0.4071
@@ -126,3 +126,11 @@ resnet18_v1 | 0.832537706941
 squeezenet1.1 | 1.6066500321
 squeezenet1.0 | 1.62178872526
 alexnet | 1.77026221156
+
+## 2017-11-28 
+* 昨天发现inceptionv3计算结果与![杨培文](https://github.com/ypwhs/DogBreed_gluon)的结果差距较大(0.7 vs 0.27).  
+** 发现了inception.features输出维度是(N,768),而其他的维度都是(N,2xxxx),遂考虑将nn.GlobalAvgPool2D()更换为nn.AvgPool2D((8,8))以增加输出维度,val_loss仍为0.7左右.在论坛中看到,由于mxnet版本问题,inception.features并不是完整的训练网络,半成品.后面直接连接pool效果自然差.  
+** 升级mxnet版本解决. ``` pip install -U --pre mxnet-cu80==0.12.1b20171126```
+* 下面2个改进:
+** 使用DA
+** 使用![stanford Dog Image](http://vision.stanford.edu/aditya86/ImageNetDogs/)
