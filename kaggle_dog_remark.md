@@ -135,9 +135,9 @@ alexnet | 1.77026221156
 ** 使用DA
 ** 使用![stanford Dog Image](http://vision.stanford.edu/aditya86/ImageNetDogs/)
 * 组合结果  
-model | my test_loss
-----|----
-inception | 0.27353
+|model | my test_loss|
+|----|----|
+|inception + resnet152 + resnet101 + densenet161 | 0.27353|
 
 
 ## 2017-11-30
