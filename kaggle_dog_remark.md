@@ -138,3 +138,7 @@ alexnet | 1.77026221156
 model | my test_loss
 ----|----
 inception | 0.27353
+
+
+## 2017-11-30
+* 跑通了Stanford数据集程序,按照代码中的流程和超参数设置
