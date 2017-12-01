@@ -142,5 +142,5 @@ alexnet | 1.77026221156
 
 ## 2017-11-30
 * 跑通了Stanford数据集程序,按照代码中的流程和超参数设置  
-![kaggle_dog_with_stanford_data](!https://github.com/davidwang8088/MXnet_test/blob/master/images/kaggle_dog_stanford0.2811.png)  
+![kaggle_dog_with_stanford_data](https://github.com/davidwang8088/MXnet_test/blob/master/images/kaggle_dog_stanford0.2811.png)  
 但是还是比最好的成绩差一个数量级,不知道怎么还能再调整的好些...
