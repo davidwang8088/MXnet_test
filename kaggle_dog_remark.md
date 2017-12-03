@@ -149,5 +149,9 @@ alexnet | 1.77026221156
 * 使用stanford数据集,使用了inceptionv3和resnet152_v1的组合model,得到了0.00365的成绩.我居然都没有注意到.还向培神提问,如何改进算法.  
 ![0.00365](https://github.com/davidwang8088/MXnet_test/blob/master/images/kaggle_dog_stanford_0.00365.png)  
 
-
+# 后记
+* 跑到了kaggle的第四!很是惊喜的成绩了.收获很多:
+* 借鉴fine tuning model, 组合model.features.  
+* 首先fine tuned model的参数值得借鉴,所以用image,跑一遍得到features = model.features(images).  
+* 其次,根据几个最好的单model成绩,尝试将其model.features拼接作为input,构造一个简单的dense net, 通过input训练
 
