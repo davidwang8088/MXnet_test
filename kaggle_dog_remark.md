@@ -144,3 +144,10 @@ alexnet | 1.77026221156
 * 跑通了Stanford数据集程序,按照代码中的流程和超参数设置  
 ![kaggle_dog_with_stanford_data](https://github.com/davidwang8088/MXnet_test/blob/master/images/kaggle_dog_stanford0.2811.png)  
 但是还是比最好的成绩差一个数量级,不知道怎么还能再调整的好些...
+
+## 2017-12-3
+* 使用stanford数据集,使用了inceptionv3和resnet152_v1的组合model,得到了0.00365的成绩.我居然都没有注意到.还向培神提问,如何改进算法.  
+![0.00365](https://github.com/davidwang8088/MXnet_test/blob/master/images/kaggle_dog_stanford_0.00365.png)  
+
+
+
